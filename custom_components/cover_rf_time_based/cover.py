@@ -225,7 +225,7 @@ class CoverTimeBased(CoverEntity, RestoreEntity):
         """Turn the device close."""
         _LOGGER.debug(self._name + ': ' + 'async_close_cover')
         self.tc.start_travel_down()
-        self._target_position = 0
+        self._target_position = 100
 
         self.start_auto_updater()
         await self._async_handle_command(SERVICE_CLOSE_COVER)
@@ -234,7 +234,7 @@ class CoverTimeBased(CoverEntity, RestoreEntity):
         """Turn the device open."""
         _LOGGER.debug(self._name + ': ' + 'async_open_cover')
         self.tc.start_travel_up()
-        self._target_position = 100
+        self._target_position = 0
 
         self.start_auto_updater()
         await self._async_handle_command(SERVICE_OPEN_COVER)
@@ -252,9 +252,9 @@ class CoverTimeBased(CoverEntity, RestoreEntity):
         _LOGGER.debug(self._name + ': ' + 'set_position :: current_position: %d, new_position: %d',
                       current_position, position)
         command = None
-        if position < current_position:
+        if position > current_position:
             command = SERVICE_CLOSE_COVER
-        elif position > current_position:
+        elif position < current_position:
             command = SERVICE_OPEN_COVER
         if command is not None:
             self.start_auto_updater()
@@ -298,16 +298,16 @@ class CoverTimeBased(CoverEntity, RestoreEntity):
         """We want to do a few things when we get a position"""
         action = kwargs[ATTR_ACTION]
         if action not in ["open","close","stop"]:
-          raise ValueError("action must be one of open, close or cover.")
+          raise ValueError("action must be one of open, close or stop.")
         if action == "stop":
           self._handle_my_button()
           return
         if action == "open":
           self.tc.start_travel_up()
-          self._target_position = 100
+          self._target_position = 0
         if action == "close":
           self.tc.start_travel_down()
-          self._target_position = 0
+          self._target_position = 100
         self.start_auto_updater()
 
     async def set_known_position(self, **kwargs):

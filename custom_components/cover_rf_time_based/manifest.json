@@ -1,10 +1,10 @@
 {
   "domain": "cover_rf_time_based",
   "name": "Cover Time Based RF (trigger script)",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "documentation": "https://github.com/nagyrobi/home-assistant-custom-components-cover-rf-time-based",
   "requirements": [
-    "xknx==0.9.4"
+    "xknx==0.17.1"
   ],
   "codeowners": ["@davidramosweb", "@nagyrobi", "@Alfiegerner"]
 }
